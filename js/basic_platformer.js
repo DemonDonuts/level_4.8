@@ -5,6 +5,7 @@ var context;
 var timer;
 var interval;
 var player;
+var pickup;  //mine
 
 
 	canvas = document.getElementById("canvas");
@@ -22,6 +23,8 @@ var player;
 		platform1.x = 500;
 		platform1.y = platform0.y- platform0.height/2 - platform1.height/2;
 		platform1.color = "#ffff00";
+		platform1.doorOpen = false;
+
 		
 	platform2 = new GameObject();
 		platform2.width = canvas.width-300;
@@ -116,27 +119,30 @@ function animate()
 		player.x--;
 		player.vx = 0;
 	}
-	while(platform1.hitTestPoint(player.top()) && player.vy <=0)
-	{
-		player.y++;
-		player.vy = 0;
-	}
-	while(platform1.hitTestPoint(player.bottom()) && player.vy >=0)
-	{
-		player.y--;
-		player.vy = 0;
-		player.canJump = true;
-	}
-	while(platform1.hitTestPoint(player.left()) && player.vx <=0)
-	{
-		player.x++;
-		player.vx = 0;
-	}
-	while(platform1.hitTestPoint(player.right()) && player.vx >=0)
-	{
-		player.x--;
-		player.vx = 0;
-	}
+
+
+
+	// while(platform1.hitTestPoint(player.top()) && player.vy <=0)
+	// {
+	// 	player.y++;
+	// 	player.vy = 0;
+	// }
+	// while(platform1.hitTestPoint(player.bottom()) && player.vy >=0)
+	// {
+	// 	player.y--;
+	// 	player.vy = 0;
+	// 	player.canJump = true;
+	// }
+	// while(platform1.hitTestPoint(player.left()) && player.vx <=0)
+	// {
+	// 	player.x++;
+	// 	player.vx = 0;
+	// }
+	// while(platform1.hitTestPoint(player.right()) && player.vx >=0)
+	// {
+	// 	player.x--;
+	// 	player.vx = 0;
+	// }
 
 	
 	//---------Objective: Let Me Out!---------------------------------------------------------------------------------------------------- 
@@ -144,13 +150,41 @@ function animate()
 	//---------Get the pearl to open the door--------------------------------------------------------------------------------------------
 	//---------Hint: you'll need a new variable to keep track of the key-----------------------------------------------------------------
 	
+	if (platform1.doorOpen && player.hitTestObject(platform1))
+	{
+		platform1.doorOpen = false;
+		platform1.x = 500;
+		platform1.y = -1000;
+	}
+
 	if(player.hitTestObject(goal))
 	{
+		platform1.doorOpen = true;
 		goal.y = 10000;
 	}
 	
-	
 
+		while(platform1.hitTestPoint(player.top()) && player.vy <=0)
+		{
+			player.y++;
+			player.vy = 0;
+		}
+		while(platform1.hitTestPoint(player.bottom()) && player.vy >=0)
+		{
+			player.y--;
+			player.vy = 0;
+			player.canJump = true;
+		}
+		while(platform1.hitTestPoint(player.left()) && player.vx <=0)
+		{
+			player.x++;
+			player.vx = 0;
+		}
+		while(platform1.hitTestPoint(player.right()) && player.vx >=0)
+		{
+			player.x--;
+			player.vx = 0;
+		}
 
 
 	
